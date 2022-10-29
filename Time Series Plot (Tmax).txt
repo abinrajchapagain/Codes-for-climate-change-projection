@@ -1,0 +1,65 @@
+#Time series plot 
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+
+
+df=pd.read_csv(r"E:\Kamala\Data\Data forTime Series Plot\Tmax\1421\ssp245\1421_dna.csv")
+df['Date']=pd.to_datetime(df['Date'])
+df=df.groupby(by=df['Date'].dt.year).agg(np.mean)
+print(df.columns)
+plt.figure(figsize=(18,5.5))
+sns.set_style("darkgrid")
+plt.plot(df.index, df['Tmax'], label="Historical")
+
+
+df=pd.read_csv(r"E:\Kamala\Data\Data forTime Series Plot\Tmax\1421\ssp585\INM-CM4-8.csv")
+df['Date']=pd.to_datetime(df['Date'])
+df=df.groupby(by=df['Date'].dt.year).agg(np.mean)
+print(df.columns)
+plt.plot(df.index, df['Tmax'], label="INM-CM4-8")
+
+
+
+df=pd.read_csv(r"E:\Kamala\Data\Data forTime Series Plot\Tmax\1421\ssp585\INM-CM5-0.csv")
+df['Date']=pd.to_datetime(df['Date'])
+df=df.groupby(by=df['Date'].dt.year).agg(np.mean)
+print(df.columns)
+plt.plot(df.index, df['Tmax'], label="INM-CM5-0")
+
+df=pd.read_csv(r"E:\Kamala\Data\Data forTime Series Plot\Tmax\1421\ssp585\MME.csv")
+df['Date']=pd.to_datetime(df['Date'])
+df=df.groupby(by=df['Date'].dt.year).agg(np.mean)
+print(df.columns)
+plt.plot(df.index, df['Tmax'], linewidth=3, color='black', label="Multi-Model Ensemble")
+
+df=pd.read_csv(r"E:\Kamala\Data\Data forTime Series Plot\Tmax\1421\ssp585\NorESM2-MM.csv")
+df['Date']=pd.to_datetime(df['Date'])
+df=df.groupby(by=df['Date'].dt.year).agg(np.mean)
+print(df.columns)
+plt.plot(df.index, df['Tmax'], label="NorESM2-MM")
+
+
+plt.axvline(2015, linewidth=0.9, color='black', dashes = [5])
+plt.axvline(2022, linewidth=0.9, color='black')
+plt.axvline(2047, linewidth=0.9, color='black')
+plt.axvline(2074, linewidth=0.9, color='black')
+plt.axvline(2100, linewidth=0.9, color='black')
+plt.title("Maximum Temperature Projection of station 1421 under ssp585", fontsize=21)
+#plt.xlabel("Year", fontsize=16)
+plt.ylabel("Temperature (°Celsius)", fontsize=20)
+plt.legend() 
+plt.legend(loc="upper left", fontsize=19)
+start=pd.to_datetime("1980")
+end=pd.to_datetime("2100")
+dec=pd.date_range(start,end,freq="10YS").year
+plt.xticks(ticks=dec,fontsize=20)
+plt.yticks(fontsize=20)
+plt.ylim(29, 38)
+plt.text(2030,36,'Near Future',Fontsize=20)
+plt.text(2058,36,'Mid Future',Fontsize=20)
+plt.text(2085,36,'Far Future',Fontsize=20)
+plt.savefig(r"E:\Kamala\Result\Time series plot\Tmax\\Maximum Temperature Projection of station 1421 under ssp585.jpg")
+plt.show()
